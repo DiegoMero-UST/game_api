@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :games, param: :token, only: [:index, :show, :create, :update, :destroy]
+      resources :games, param: :token, only: [:index, :show, :create, :update, :destroy] do
+        member do
+          post :pick_card
+          post :submit_form
+        end
+      end
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
