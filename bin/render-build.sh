@@ -13,6 +13,12 @@ else
   echo "Skipping asset compilation (API-only app)"
 fi
 
-bin/rails db:migrate
-
-bin/rails db:seed
+# Check if database is available before running migrations
+if bin/rails runner "puts 'Database connection successful'" 2>/dev/null; then
+  echo "Database available, running migrations..."
+  bin/rails db:migrate
+  bin/rails db:seed
+else
+  echo "Database not available during build, skipping migrations"
+  echo "Migrations will run at runtime"
+fi
